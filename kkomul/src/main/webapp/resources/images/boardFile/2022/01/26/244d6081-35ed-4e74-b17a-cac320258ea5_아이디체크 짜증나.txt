@@ -1,0 +1,22 @@
+	@RequestMapping(value = "/id_check", method = RequestMethod.POST)
+	public void checkID(String userid) throws Exception {
+		
+		log.info("id_check.............................");
+		
+		String result = null;
+		
+		MemberDTO mDto = service.checkID(userid);
+		
+		if (mDto != null) {
+			result = "1";
+		} else {
+			result = "-1";
+		}
+
+		JSONObject jObj = new JSONObject();
+		jObj.put("result", result);
+		jObj.put("id", userid);
+		
+		response.setContentType("application/x-json; charset=UTF-8");
+		response.getWriter().print(jObj);
+	}

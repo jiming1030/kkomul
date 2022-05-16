@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BoardMapper">
+
+	<insert id="createBoard">
+		INSERT INTO tbl_board(bno, subject, content, userid)
+		VALUES(board_seq.nextval, #{subject}, #{content}, #{userid})
+		<selectKey keyProperty="bno" resultType="Integer" order="AFTER">
+			SELECT board_seq.currval FROM dual
+		</selectKey>
+	</insert>
+
+	<select id="readBoard" resultType="com.kkomul.project.board.domain.BoardDTO">
+		SELECT *
+		FROM tbl_board
+		WHERE bno=#{bno}
+	</select>
+	
+	<update id="updateBoard">
+		UPDATE tbl_board
+		SET subject=#{subject}, content=#{content}
+		WHERE bno=#{bno}
+	</update>
+	
+	<delete id="deleteBoard">
+		DELETE FROM tbl_board
+		WHERE bno=#{bno}
+	</delete>
+
+ 	<sql id="criteria">
+ 		<if test="typeArr != null">
+ 	       <trim prefix="(" suffix=") AND" prefixOverrides="OR">
+ 	            <foreach collection="typeArr" item="type">
+ 	                <trim prefix="OR">
+ 	                   <choose>
+ 	                      <when test="type == 'T'.toString()">
+ 	                         subject LIKE '%'||#{keyword}||'%'
+ 	                      </when>
+ 	                      <when test="type == 'C'.toString()">
+ 	                         content LIKE '%'||#{keyword}||'%'
+ 	                      </when>
+ 	                      <when test="type == 'W'.toString()">
+ 	                         userid LIKE '%'||#{keyword}||'%'
+	                      </when>
+ 	                   </choose>
+ 	                </trim>
+ 	            </foreach>
+ 	         </trim>
+ 		</if>
+     </sql>
+
+     <select id="getListWithPaging" resultType="com.kkomul.project.board.domain.BoardDTO">
+      	<![CDATA[
+	         SELECT *
+	         FROM (SELECT /*+ INDEX_DESC(tbl_board tbl_board_bno_PK) */ 
+	                rownum rn,
+	                bno,
+	                subject,
+	                content,
+	                userid,
+	                regdate,
+	                readcount
+	               FROM tbl_board
+	               WHERE    
+      	]]>
+        <include refid="criteria"></include>
+        <![CDATA[
+	          rownum <= #{pageNum} * #{amount})
+	         WHERE rn > (#{pageNum} - 1) * #{amount}
+        ]]>
+     </select>
+
+     <select id="getTotalCnt" resultType="int">
+		 SELECT COUNT(*)
+		 FROM tbl_board
+		 WHERE 
+ 		 <include refid="criteria"></include>
+		 bno > 0
+     </select>
+
+	 <update id="updateReadcount">
+		 UPDATE tbl_board
+		 SET readcount = readcount + 1
+		 WHERE bno = #{bno}
+	 </update>
+	 
+	 <select id="getNewList" resultType="com.kkomul.project.board.domain.BoardDTO">
+	 	<![CDATA[
+		 	SELECT *
+			FROM (SELECT ROWNUM rNUM,
+	             		 a.*
+	      		  FROM (SELECT *
+	              		FROM tbl_board
+	             		WHERE bno > 0
+	             		ORDER BY regdate desc) a)
+		 	WHERE RNUM <= 10
+		 	ORDER BY bno desc
+		 ]]>
+	 </select>
+	 
+	 <select id="getBestList" resultType="com.kkomul.project.board.domain.BoardDTO">
+	 	<![CDATA[
+		 	SELECT *
+			FROM (SELECT ROWNUM rNUM,
+	                    b.*
+	      		  FROM (SELECT *
+	            		FROM tbl_board
+	           			WHERE bno > 0
+	            		ORDER BY readcount desc) b)
+			WHERE RNUM <= 4
+		]]>
+	 </select>	 	 
+</mapper>

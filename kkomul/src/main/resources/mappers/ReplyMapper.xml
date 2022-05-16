@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kkomul.project.board.mapper.ReplyMapper">
+	<insert id="insertReply">
+		INSERT INTO tbl_reply(rno, bno, replytext, replyer)
+		VALUES(reply_seq.nextval, #{bno}, #{replytext}, #{replyer})
+	</insert>
+	
+	<select id="readReply" resultType="com.kkomul.project.board.domain.ReplyDTO">
+		SELECT *
+		FROM tbl_reply
+		WHERE bno = #{bno}
+	</select>
+</mapper>

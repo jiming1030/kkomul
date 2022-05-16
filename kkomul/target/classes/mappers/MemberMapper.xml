@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MemberMapper">
+
+	<select id="selMember" resultType="com.kkomul.project.member.domain.MemberDTO">
+		SELECT *
+		FROM tbl_member
+		WHERE userid=#{userid}
+	</select>
+
+  	<select id="selEmailChk" resultType="com.kkomul.project.member.domain.MemberDTO">
+    	SELECT * 
+    	FROM tbl_member 
+    	WHERE email = #{email} 	
+  	</select>
+
+	<insert id="insertMember">
+		INSERT INTO tbl_member(userid, userpwd, username, email, birthday, regdate)
+		VALUES(#{userid}, #{userpwd}, #{username}, #{email}, #{birthday}, sysdate)
+	</insert>
+		
+	<select id="selLoginInfo" resultType="com.kkomul.project.member.domain.MemberDTO">
+		SELECT *
+		FROM tbl_member
+		WHERE userid=#{userid} 
+		AND userpwd=#{userpwd}	
+	</select>
+	
+	<select id="selPwd" resultType="com.kkomul.project.member.domain.MemberDTO">
+		SELECT *
+		FROM tbl_member
+		WHERE userpwd=#{userpwd}
+	</select>
+	
+	<update id="modifyMember">
+	  	UPDATE tbl_member
+	  	SET userpwd=#{userpwd}, username=#{username}, email=#{email}, birthday=#{birthday}  
+		WHERE userid=#{userid}
+	</update>
+	
+	<delete id="deleteMember">
+	  	DELETE tbl_member
+	  	WHERE userid=#{userid}
+	  	AND userpwd=#{userpwd}
+    </delete>
+	
+	<update id="profileUpload">
+	  	UPDATE tbl_member
+	  	SET fileName=#{fileName}  
+		WHERE userid=#{userid} 	
+    </update>
+	
+</mapper>

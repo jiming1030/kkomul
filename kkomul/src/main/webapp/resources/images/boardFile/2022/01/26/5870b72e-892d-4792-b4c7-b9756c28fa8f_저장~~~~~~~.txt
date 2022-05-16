@@ -1,0 +1,130 @@
+<!--  		<div style="text-align: center; margin-left: auto; margin-right: auto;">
+ 			<form action="/km/board/boardList.kkomul" method="get" style="width: 300px; margin-left: auto; margin-right: auto;">
+ 				<select name="searchType" id="searchType">
+ 					<option value="t"<c:out value="${boardInfo.searchType == 't'?'selected':''}"/>>제목</option>
+ 					<option value="c"<c:out value="${boardInfo.searchType == 'c'?'selected':''}"/>>내용</option>
+ 					<option value="w"<c:out value="${boardInfo.searchType == 'w'?'selected':''}"/>>작성자</option>
+ 					<option value="tc"<c:out value="${boardInfo.searchType == 'tc'?'selected':''}"/>>제목 + 내용</option> <!-- option에 value값 안주면 폼 넘어갈 때 값 못가져감 -->
+<!--  				</select>
+ 				<input type="text" name="searchkeyword" id="searchkeyword" value="${boardInfo.searchkeyword }"><br>
+ 				<input type="submit" value="검색" style="width: auto;">
+ 			</form>
+ 		</div>  -->
+
+
+
+
+
+
+<!-- 		<tr id="tr_btn">
+				<td colspan="2" align="center">
+					<c:choose>
+						<c:when test="${selBoardView.id == sessionScope.loginUser.id}">
+							<input type="button" value="수정하기" onclick="fn_enable(this.form)">
+							<input type="button" value="삭제하기" onclick="location.href='/km/board/boardDelete.kkomul?articleNo=${selBoardView.articleNo}'">						
+							<input type="button" value="목록보기" onclick="backToList(frm)">
+							<c:if test="${selBoardView.re_level == 1}">
+								<input type="button" value="댓글쓰기" onclick="fn_reply_form('/km/board/boardReplyForm.kkomul', ${selBoardView.articleNo }, ${selBoardView.ref }, ${selBoardView.re_step }, ${selBoardView.re_level })">
+							</c:if>
+						</c:when>
+						<c:otherwise>
+							<input type="button" value="목록보기" onclick="backToList(frm)">
+							<c:if test="${not empty sessionScope.loginUser.id && selBoardView.re_level == 1}">
+								<input type="button" value="댓글쓰기" onclick="fn_reply_form('/km/board/boardReplyForm.kkomul', ${selBoardView.articleNo }, ${selBoardView.ref }, ${selBoardView.re_step }, ${selBoardView.re_level })">
+							</c:if>
+						</c:otherwise>
+					</c:choose>
+				</td>
+			</tr> -->	
+
+
+
+
+
+<%-- 			<c:if test="${not empty selBoardView.filename && selBoardView.filename != 'null' }"> --%>
+<!-- 				<tr>
+					<td width="150" align="center" rowspan="2">이미지</td>
+					<td>
+						<input type="hidden" name="originalFilename" value="${boardInfo.filename}">
+						<img alt="첨부 이미지" src="/km/board/imagesPreView.kkomul?articleNo=${selBoardView.articleNo}&filename=${selBoardView.filename }" id="preview" style="width: 300px; height: 300px"><br>
+					</td>
+				</tr>  -->
+<!-- 				<tr>
+					<td>
+						<input type="file" name="filename" id="i_filename" disabled="disabled" onchange="readURL(this);">
+					</td>
+				</tr> -->
+<%-- 			</c:if> --%>
+
+
+
+
+
+
+<!-- 			<section id="intro" style="text-align: center;">
+				<a href="#" class="logo"><img src="../images/heartlogo.png" alt=""></a>
+				<header>
+					<h2>꼬물꼬물</h2>
+					<p>
+					KKOMUL KKOMUL<br>
+					핸드메이드 소품을 공유해용
+					</p>
+				</header>
+			</section> -->
+			
+			<%-- <ul style="text-align: center; list-style-type: none;">
+				<li><a href="${contextPath}/board/boardList.kkomul">FREE BOARD</a></li>
+			</ul> --%>
+			<%-- <ul class="actions stacked">
+				<li><a href="${contextPath}/board/boardList.kkomul">FREE BOARD</a></li>
+			</ul> --%>
+			 <!-- class="button large fit"  -->
+			 
+<%-- 			<c:choose>
+				<c:when test="${empty sessionScope.loginUser}"> <!-- empty = null -->
+					<section>
+						<ul class="actions stacked">
+							<li style="margin-left: auto; margin-right: auto; font-style: italic; font-size: 1.1em;"><a href="${contextPath}/member/login_form.kkomul">Log In</a></li>
+						</ul>
+					</section>
+					<section>
+						<ul class="actions stacked">
+							<li style="margin-left: auto; margin-right: auto; font-style: italic; font-size: 1.1em;"><a href="${contextPath}/member/contract.kkomul">JOIN</a></li>
+						</ul>
+					</section>
+					
+				</c:when>
+				<c:otherwise>
+					<section>
+ 						<ul class="actions stacked">
+							<li style="margin-left: auto; margin-right: auto;">
+							<a href="${contextPath}/member/profile_upload_form.kkomul">
+								<img style = "border-radius:50%;" onerror="this.src ='/km/images/default/default.jpg'" 
+								src="/km/member/ProfilePreView.kkomul?id=${sessionScope.loginUser.id}&filename=${sessionScope.loginUser.filename }" "width="150px" height="150px" />
+							</a>
+							</li>
+						</ul>
+						<ul class="actions stacked">
+							<li style="margin-left: auto; margin-right: auto;">안녕하세요! </li>
+							<li style="color: Orange; margin-left: auto; margin-right: auto;">${sessionScope.loginUser.name}(${sessionScope.loginUser.id}) 님</li> <!-- 이름, 아이디 가져오기 -->
+						</ul>
+					</section>
+					<section>
+						<ul class="actions stacked">
+							<li style="margin-left: auto; margin-right: auto; font-style: italic; font-size: 1.1em;"><a href="${contextPath}/board/boardList.kkomul">BOARD</a></li>
+						</ul>
+					</section>
+					<section>
+						<ul class="actions stacked">
+							<li style="margin-left: auto; margin-right: auto; font-style: italic; font-size: 1.1em;">
+								<a href="${contextPath}/member/member_info.kkomul?id=${sessionScope.loginUser.id}">MY PAGE</a>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<ul class="actions stacked">
+							<li style="margin-left: auto; margin-right: auto; font-style: italic; font-size: 1.1em;"><a href="${contextPath}/member/logout.kkomul">LOGOUT</a></li>
+						</ul>
+					</section>
+				</c:otherwise>
+			</c:choose> --%>
